@@ -1,0 +1,34 @@
+Páginas que necesito:
+Login
+Perfil
+Menú (tipo Tiermaker, bases de datos típica con filtros etc)
+Página de cada PartyRank
+Creador de Party Ranks (añadir vídeos, imágenes, nombre...)
+Salas (invitar, configuración extra -sistema de ranking, tiempo...-) y creador de salas(nº de personas) 
+Resultado (export)
+
+Extra:
+Configurar las salas
+-Sistema de Ranking(Voto rankeado, Notas, Tiers), 
+-Visualizar notas de compañeros (Al acabar todo o tras cada voto)
+
+Diferentes formas de exportar: Tierlist, Twitter, Imagenes...
+API Anilist
+Resultado por persona aparte del general
+Ver tus notas anteriores durante el PartyRank 
+
+Net .8
+Angular 17 + Ionic
+Docker
+Arquitectura Hexagonal
+Git, Cypress, Gatling
+
+
+//Salas
+CreateParty(Lista de Elementos)
+--> Espera a que se pulse el botón mientras se unen usuarios
+[Botón] Iniciar
+--> Muestra un vídeo durante X segundos 
+    Cada usuario pone su nota
+    Loop hasta acabar la lista
+--> Muestra los resultados generales
