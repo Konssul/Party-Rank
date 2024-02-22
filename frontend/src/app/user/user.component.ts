@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { GamesComponent } from '../games/games.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [GamesComponent],
+  imports: [GamesComponent, RouterModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
