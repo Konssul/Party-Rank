@@ -19,7 +19,7 @@ export const routes: Routes = [
     {
         path:'games',
         component: GamesComponent,
-        title: 'Games'
+        title: 'Gams'
 
     }
 
