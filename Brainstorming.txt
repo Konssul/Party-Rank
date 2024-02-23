@@ -34,3 +34,8 @@ CreateParty(Lista de Elementos)
     Cada usuario pone su nota
     Loop hasta acabar la lista
 --> Muestra los resultados generales
+
+
+//Antes del 26/02/2024
+Quiero tener terminado un prototipo de las salas. Los usuarios se logean (solo con su nombre) y pueden crear o unirse a la sala.
+Como mucho ahí meter un chat o algo muy simple que compruebe que se esté dando la conexión 
