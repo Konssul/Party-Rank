@@ -1,0 +1,8 @@
+com\konsul\partyrank\model\Message.class
+com\konsul\partyrank\config\WebSocketConfig.class
+com\konsul\partyrank\controller\ChatController.class
+com\konsul\partyrank\model\Status.class
+com\konsul\partyrank\controller\UserController.class
+com\konsul\partyrank\model\User.class
+com\konsul\partyrank\repository\UserRepository.class
+com\konsul\partyrank\PartyrankApplication.class

@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-PartyrankApplication<partyrank>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.konsul.partyrank.PartyrankApplication",
+            "projectName": "partyrank",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
