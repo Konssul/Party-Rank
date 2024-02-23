@@ -17,6 +17,8 @@ API Anilist
 Resultado por persona aparte del general
 Ver tus notas anteriores durante el PartyRank 
 
+
+//Inerza
 Net .8
 Angular 17 + Ionic
 Docker
