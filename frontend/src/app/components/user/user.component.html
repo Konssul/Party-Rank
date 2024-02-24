@@ -1,6 +1,6 @@
 <section>
     @if (isLoggedIn) {
-    <p>Bienvenido {{username}}</p>
+    <p routerLink="">Bienvenido {{username}}</p>
     <img
     (click)="greet()"
      alt="photo" src="https://github.com/konssul.png">
@@ -16,7 +16,4 @@ username={{username}}></app-games>
 
     <p>Tu juego favorito es {{favGame}}</p>
 }
-<a [routerLink] = "['/comments', this.username ]">Comentarios</a>
-<p></p>
-<a [routerLink] = "['/games']">Games</a>
 </section>

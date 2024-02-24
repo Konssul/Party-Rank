@@ -1,7 +1,9 @@
 package com.konsul.partyrank.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
@@ -18,27 +20,36 @@ public class RoomWSController {
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
+   
+    @MessageMapping("/createRoom/{roomName}")
+    @SendTo("/topic/{roomName}")
+    public Object createRoom(@DestinationVariable String roomName, String password) {
 
-    @MessageMapping("/createRoom")
-    public Room createRoom(Room room) {
-        // Lógica para crear una nueva sala en la base de datos
-        // ...
-        if(roomRepository.findByRoomName(room.getRoomName()) != null){
-            return null;
+        for (Room roomListable : roomRepository.findAll()) {
+               System.out.println(roomListable);
         }
+        Room room;
+        if(roomRepository.findByRoomName(roomName) != null){
+            System.out.println("Ya creada");
+            return "roomAlready";
+        }else{
+            System.out.println("NUEVA");
+            room = new Room(roomName, password);
+            return roomRepository.save(room);
+        }
+        
+        
 
-        messagingTemplate.convertAndSend("/topic/rooms", room);
-        return roomRepository.save(room);
-
+        
     }
 
     @MessageMapping("/buscarSala")
     public void buscarSala(String roomName) {
-        // Lógica para buscar una sala por su ID
+       
 
         Room room = roomRepository.findByRoomName(roomName);
 
-        //if(){}
+     
         messagingTemplate.convertAndSendToUser(roomName, "/queue/sala", room);
     }
 }
