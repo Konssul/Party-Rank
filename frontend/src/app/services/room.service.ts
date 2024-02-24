@@ -14,7 +14,7 @@ export class RoomService {
 
   constructor(private router: Router) { }
 
-  initConnectSocket(roomName: string): Promise<void> {
+  initConnectSocket(): Promise<void> {
     const url = '//localhost:8181/ws';
     const socket = new SockJS(url);
     this.stompClient = Stomp.over(socket);
@@ -32,11 +32,13 @@ export class RoomService {
   }
 
   createRoom(roomName: string, password:string) {
-    this.initConnectSocket(roomName).then(() => {
+    console.log("ENTRAENCREATE");
+    this.initConnectSocket().then(() => {
       const stompSubscription = this.stompClient.subscribe('/topic/' + roomName, (message: { body: string }) => {
 
         if (message.body === 'roomAlready') {
           console.log('La sala ya existe, no se realizará la conexión.');
+          this.stompClient.unsubscribe();
         } else {
           const room = JSON.parse(message.body);
           console.log('Nueva sala creada:', room);
@@ -50,6 +52,33 @@ export class RoomService {
       this.router.navigate(['']);
     });
   }
+
+  joinRoom(roomName: string, password: string) {
+    console.log("ENTRAENJOIN");
+    this.initConnectSocket().then(() => {
+        console.log("CONECTA");
+        
+        // Suscríbete al tema joinTry antes de enviar el mensaje
+        const stompSubscription = this.stompClient.subscribe('/topic/joinTry', (message: { body: string }) => {
+          console.log("MESSAGEBODY", message.body);
+            
+            if (message.body == 'true') {
+                console.log('Usuario Nuevo');
+                this.stompClient.subscribe('/topic/' + roomName);
+                this.router.navigate(['/room', roomName]);
+            } else {
+                console.log('Parámetros no cumplidos');
+            }
+
+            // Desuscribirse después de recibir la respuesta
+            stompSubscription.unsubscribe();
+        });
+
+        // Ahora envía el mensaje
+        this.stompClient.send('/app/joinRoom', {}, JSON.stringify({ roomName, password }));
+    });
+}
+
 
 
   IsConnected(): boolean {
