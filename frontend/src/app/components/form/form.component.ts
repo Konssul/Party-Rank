@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RoomComponent } from '../room/room.component';
 import { HomeComponent } from '../home/home.component';
@@ -12,6 +12,7 @@ import { RoomService } from '../../services/room.service';
   styleUrl: './form.component.css'
 })
 export class FormComponent {
+  @ViewChild('formContainer') formContainer!: ElementRef;
 
 
   constructor( private roomService: RoomService) {
@@ -23,12 +24,14 @@ export class FormComponent {
     roomPwd: new FormControl(''),
   });
   
-
+  
   createRoom(): void {
     this.roomService.createRoom(
       this.roomForm.value.roomName ?? '',
       this.roomForm.value.roomName ?? '',
     );
+
+
   }
 
 
