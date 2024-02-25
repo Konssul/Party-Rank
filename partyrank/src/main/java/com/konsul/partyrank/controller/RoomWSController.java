@@ -26,7 +26,7 @@ public class RoomWSController {
     private SimpMessagingTemplate messagingTemplate;
 
     @MessageMapping("/createRoom/{roomName}")
-    @SendTo("/topic/{roomName}")
+    @SendTo("/topic/roomCreation")
     public Object createRoom(@DestinationVariable String roomName, String password) {
 
         for (Room roomListable : roomRepository.findAll()) {
@@ -61,6 +61,16 @@ public class RoomWSController {
             }
         }
         return false;
+    }
 
+
+    @MessageMapping("/room/{roomName}")
+    @SendTo("/topic/{roomName}")
+    public String checkUserListening(@DestinationVariable String roomName, String request) {
+    
+        
+        System.out.println(request);
+      
+        return request;
     }
 }

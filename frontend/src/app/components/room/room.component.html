@@ -1,1 +1,15 @@
-<p>room works!</p>
+<iframe width="560" height="315" [src]="youtubeUrls[i]" 
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+
+<div>
+<h2 for="roomName">Score</h2>
+<p></p>
+<input id="score" type="text">
+
+<button type="submit" class="primary" >Submit</button>
+
+
+@if (isAdmin) {
+    <button (click)="nexVideoToService()" class="primary" >Continue</button>
+}
+</div>
