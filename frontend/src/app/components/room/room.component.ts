@@ -3,11 +3,9 @@ import { RoomService } from '../../services/room.service';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
-import { fromEvent, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { LocationStrategy } from '@angular/common';
 
-
+/*Necesita un poco de refactorización!!!*/
 
 @Component({
   selector: 'app-room',
@@ -17,10 +15,7 @@ import { LocationStrategy } from '@angular/common';
   styleUrl: './room.component.css'
 
 })
-export class RoomComponent implements OnInit {
-
-
-
+export class RoomComponent {
 
 
   private nextVideoIndexSubscription: Subscription | undefined;
@@ -30,16 +25,12 @@ export class RoomComponent implements OnInit {
   i = 0;
   youtubeUrls: SafeResourceUrl[] = [
     "https://youtu.be/ow7iv7cXpTo?si=N5qGlhrzsFR_bYLM",
+    "https://youtu.be/WBhgmyPYSbQ?si=J16FhFPJ0he7Tl9J",
+    "https://youtu.be/qaTfRV5XwNc?si=Bw7moYmmOTL5Gn1c",
     "https://youtu.be/-tKVN2mAKRI?si=268bVPsca2YVz6Oh",
-    "https://youtu.be/-tKVN2mAKRI?si=268bVPsca2YVz6Oh",
-    "https://youtu.be/-tKVN2mAKRI?si=268bVPsca2YVz6Oh"
+    "https://youtu.be/ZNUm-ZWrMnk?si=upk9RIR35U-SyRy2"
   ]
   currentVideoUrl: SafeResourceUrl | undefined;
-
-
-  ngOnInit(): void {
-    
-  }
 
 
   constructor(private roomService: RoomService, private router: Router, private sanitizer: DomSanitizer, private location: LocationStrategy) {
@@ -57,6 +48,9 @@ export class RoomComponent implements OnInit {
 
     this.nextVideoIndexSubscription = this.roomService.nextVideoIndex$.subscribe((index) => {
       this.i = index;
+      if( this.i>0 && this.i<2){
+      history.back(); //No sé como funciona ni como lo he descubierto, pero funciona SDKJAHD 
+      }
     });
 
  
@@ -105,7 +99,6 @@ export class RoomComponent implements OnInit {
 
   nexVideoToService() {
     
-    history.back(); //No sé como funciona ni como lo he descubierto, pero funciona SDKJAHD 
 
     this.nextVideo();
     this.roomService.nextVideoService(this.roomName, this.i);

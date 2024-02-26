@@ -36,7 +36,6 @@ export class RoomService {
         resolve();
       }, (error: any) => {
         this.isConnected = false;
-
         reject(error);
       });
     });
@@ -69,14 +68,12 @@ export class RoomService {
     });
   }
 
-  joinRoom(roomName: string, password: string) {
-
   
+  joinRoom(roomName: string, password: string) {
     console.log("ENTRAENJOIN");
     this.initConnectSocket().then(() => {
         console.log("CONECTA");
         
-        // Suscríbete al tema joinTry antes de enviar el mensaje
         const stompSubscription = this.stompClient.subscribe('/topic/joinTry', (message: { body: string }) => {
           console.log("MESSAGEBODY", message.body);
             
@@ -88,11 +85,9 @@ export class RoomService {
                 console.log('Parámetros no cumplidos');
             }
 
-            // Desuscribirse después de recibir la respuesta
             stompSubscription.unsubscribe();
         });
 
-        // Ahora envía el mensaje
         this.stompClient.send('/app/joinRoom', {}, JSON.stringify({ roomName, password }));
     });
 }
@@ -109,7 +104,7 @@ handleRoomMessage(message: { body: string }): void {
 }
 
 nextVideoService(roomName: string, nextVideoIndex: number): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
+  return new Promise<void>((resolve) => {
     this.stompClient.send('/app/room/' + roomName, {}, "nextVideoIndex:" + nextVideoIndex);
     resolve();
   });
