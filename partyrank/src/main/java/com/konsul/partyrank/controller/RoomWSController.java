@@ -59,13 +59,18 @@ public class RoomWSController {
     }
 
 
+    @MessageMapping("/room/{roomName}/video")
+    @SendTo("/topic/{roomName}")
+    public String returnNextVideoIndex(@DestinationVariable String roomName, String request) {
+        System.out.println(request);
+        return request;
+    }
+
     @MessageMapping("/room/{roomName}")
     @SendTo("/topic/{roomName}")
-    public String checkUserListening(@DestinationVariable String roomName, String request) {
-    
-        
+    public String cjecl(@DestinationVariable String roomName, String request) {
         System.out.println(request);
-      
+     
         return request;
     }
 }

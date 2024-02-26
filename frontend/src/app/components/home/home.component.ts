@@ -17,8 +17,7 @@ export class HomeComponent {
   routerSubscription:any;
   dialogRef:any;
 
-  roomName = "AXBC";
-  roomPwd = "12345"
+
 
   constructor(private dialog: MatDialog, private router: Router) {
   }

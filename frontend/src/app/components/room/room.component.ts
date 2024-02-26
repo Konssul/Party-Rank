@@ -4,18 +4,26 @@ import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { LocationStrategy } from '@angular/common';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 /*Necesita un poco de refactorización!!!*/
 
 @Component({
   selector: 'app-room',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './room.component.html',
   styleUrl: './room.component.css'
 
 })
 export class RoomComponent {
+
+
+  public formType =''
+  scoreForm = new FormGroup({
+    score: new FormControl('')
+  })
+
 
 
   private nextVideoIndexSubscription: Subscription | undefined;
@@ -49,7 +57,7 @@ export class RoomComponent {
     this.nextVideoIndexSubscription = this.roomService.nextVideoIndex$.subscribe((index) => {
       this.i = index;
       if( this.i>0 && this.i<2){
-      history.back(); //No sé como funciona ni como lo he descubierto, pero funciona SDKJAHD 
+      history.back(); //No sé como funciona ni como lo he descubierto, pero funciona 
       }
     });
 
@@ -99,7 +107,6 @@ export class RoomComponent {
 
   nexVideoToService() {
     
-
     this.nextVideo();
     this.roomService.nextVideoService(this.roomName, this.i);
   }
@@ -108,5 +115,8 @@ export class RoomComponent {
       this.nextVideoIndexSubscription.unsubscribe();
     }
   }
-
+  submitScore(){
+    console.log(this.scoreForm.value.score)
+    this.scoreForm.controls.score.setValue('');
+  }
 }

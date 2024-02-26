@@ -105,7 +105,7 @@ handleRoomMessage(message: { body: string }): void {
 
 nextVideoService(roomName: string, nextVideoIndex: number): Promise<void> {
   return new Promise<void>((resolve) => {
-    this.stompClient.send('/app/room/' + roomName, {}, "nextVideoIndex:" + nextVideoIndex);
+    this.stompClient.send('/app/room/' + roomName + '/video', {}, "nextVideoIndex:" + nextVideoIndex);
     resolve();
   });
 }

@@ -4,10 +4,11 @@ allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-pic
 <div>
 <h2 for="roomName">Score</h2>
 <p></p>
-<input id="score" type="text">
 
-<button type="submit" class="primary" >Submit</button>
-
+<form [formGroup]="scoreForm" (submit)="submitScore()">
+<input id="score" type="text" formControlName="score">
+<button  type="submit" class="primary" >Submit</button>
+</form>
 
 @if (isAdmin) {
     <button (click)="nexVideoToService()" class="primary" >Continue</button>

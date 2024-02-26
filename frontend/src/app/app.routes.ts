@@ -1,10 +1,9 @@
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { UserComponent } from './components/user/user.component';
 import { RoomComponent } from './components/room/room.component';
 import { HomeComponent } from './components/home/home.component';
 import { ConnectionGuard } from './services/connectionguard.service';
-import { NgModule } from '@angular/core';
 
 
 
