@@ -12,4 +12,7 @@ npm install --save @angular/material
 POSTMAN:
 https://www.postman.com/downloads/?utm_source=postman-home
 
+
+
+DOCKER //To Install
 PGADMIN4
