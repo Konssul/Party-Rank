@@ -1,0 +1,4 @@
+(MVC)
+Controller -> Service (Interface) -> Service (Implementation) -> Repository
+
+//Room requires refactor - implement MVC
