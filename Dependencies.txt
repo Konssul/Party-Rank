@@ -1,5 +1,15 @@
-Installar Maven
+MAVEN:
 https://www.youtube.com/watch?v=km3tLti4TCM
 https://maven.apache.org/wrapper/
 
+
+
+ANGULAR:
 npm install --save @angular/material
+
+
+
+POSTMAN:
+https://www.postman.com/downloads/?utm_source=postman-home
+
+PGADMIN4
