@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { LoginRequest } from './loginRequest';
-import { Observable, catchError, throwError, BehaviorSubject, tap } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, catchError, throwError, BehaviorSubject, tap, map } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { User } from './user';
+import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -11,24 +13,32 @@ import { User } from './user';
 
 export class LoginService {
 
-  currentUserLoginOnSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  currentUserLoginOnSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(sessionStorage.getItem("token")!=null);
   currentUserLoginOn$:Observable<boolean> = this.currentUserLoginOnSubject.asObservable();
 
-  currentLoginUserDataSubject: BehaviorSubject<User> = new BehaviorSubject<User>({id:0, username:''}); //TODO: Session Storage...
-  currentLoginUserData$:Observable<User> = this.currentLoginUserDataSubject.asObservable();
+  currentLoginUserDataSubject: BehaviorSubject<String> = new BehaviorSubject<String>(sessionStorage.getItem("token") || "");
+  currentLoginUserData$:Observable<String> = this.currentLoginUserDataSubject.asObservable();
 
+  
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private router:Router) { 
+    
+    //this.currentUserLoginOnSubject=new BehaviorSubject<boolean>(sessionStorage.getItem("token")!=null);
+    //this.currentLoginUserDataSubject=new BehaviorSubject<String>(sessionStorage.getItem("token") || "");
 
-  login(credentials:LoginRequest):Observable<User>{
-      return this.http.get<User>('././assets/data.json').pipe(
+  }
 
-        tap(userData=>{
-          this.currentLoginUserDataSubject.next(userData);
-          this.currentUserLoginOnSubject.next(true);
+  login(credentials:LoginRequest):Observable<any>{
+      return this.http.post<any>(environment.urlHost+"auth/login", credentials).pipe(
+
+        tap((userData)=>{
+          sessionStorage.setItem("token", userData.token)
+          this.currentLoginUserDataSubject.next(userData.token);
+          this.currentUserLoginOnSubject.next(true)
+          console.log(this.currentUserLoginOnSubject.value)
           
-
         }),
+        map((userData)=>userData.token),
         catchError(this.handleError)
       )
   }
@@ -39,10 +49,37 @@ export class LoginService {
       console.error('Se ha producido un error', error.error)
     }
     else{
-      console.error('El Backend retornó el código de estado', error.status, error.error)
+      console.error('El Backend retornó el código de estado', error)
     }
     return throwError(()=>new Error('Please, try again'))
 
   }  
+
+  logout():void{
+    console.log("Logout")
+    sessionStorage.removeItem("token");
+    this.currentUserLoginOnSubject.next(false);
+    this.router.navigate(['login'])
+  }
+
+  get userToken():String{
+    return this.currentLoginUserDataSubject.value
+  }
+  getUserInfo(): Observable<User> {
+    const token = this.currentLoginUserDataSubject.value;
+
+    if (!token) {
+      return throwError("No hay token disponible");
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<User>(environment.urlHost + "auth/user", { headers }).pipe(
+      catchError(this.handleError)
+    );
+  }
+  
 }
 

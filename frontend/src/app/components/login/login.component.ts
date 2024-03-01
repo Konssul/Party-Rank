@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginService } from '../../services/auth/login.service';
 import { LoginRequest } from '../../services/auth/loginRequest';
@@ -13,9 +13,9 @@ import { Subscription } from 'rxjs';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent implements OnInit, OnDestroy{
+export class LoginComponent implements OnInit, OnDestroy, AfterViewInit{
 
-  userLoginOn:boolean=false;
+  userLoginOn?:boolean;
   loginError:string = "";
   public formType = '';
 
@@ -23,15 +23,26 @@ export class LoginComponent implements OnInit, OnDestroy{
 
 
   }
+  ngAfterViewInit(): void {
+    if(this.userLoginOn){
+      console.log("this.userLoginOn")
+      this.router.navigate(['profile'])
+    }
+  }
   ngOnDestroy(): void {
     //Unsubscribe if something goes wrong.
     }
+
+
   ngOnInit(): void {
+    
+
     
     this.loginService.currentUserLoginOn$.subscribe(
       {
         next:(userLoginOn)=>{
           this.userLoginOn=userLoginOn
+          console.log(userLoginOn)
         }
 
     })

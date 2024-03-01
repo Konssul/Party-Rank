@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class UserRequest {
     int id;
     String username;
-    String firstname;
-    String lastname;
-    String country;
+    String email;
+
 }

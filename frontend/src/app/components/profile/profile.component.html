@@ -1,11 +1,15 @@
-@if(userLoginOn){
+<!--FALTA IMPLEMENTAR LA PARTE DE EDITAR Y LA IMAGEN DE PERFIL-->
+
+
 <div>
-    <p>Username: {{loginUserData?.username}}</p>
-    <p>Email: {{loginUserData?.email}}</p>
+    <p>Username: {{userProfileData?.username}}</p>
+    <p>Email: {{userProfileData?.email}}</p>
 
 </div>
+@if (isUserProfileLogged) {
+
+    <p>Está logeado</p>
+    <button (click)="logoutButton()">Logout</button>
 
 }
-@else {
-<p>User not logged</p> <!--Hay que poner el perfil del usuario basado en la ruta pero buenoXD-->
-}
+

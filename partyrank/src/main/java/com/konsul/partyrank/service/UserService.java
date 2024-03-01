@@ -21,14 +21,13 @@ public class UserService {
        
         User user = User.builder()
         .id(userRequest.getId())
-        .firstname(userRequest.getFirstname())
-        .lastname(userRequest.getLastname())
-        .country(userRequest.getCountry())
+        .username(userRequest.getUsername())
+        .email(userRequest.getEmail())
         .role(Role.USER)
         .build();
         
-        userRepository.updateUser(user.id, user.getFirstname(), user.getLastname(), user.getCountry());
-
+        userRepository.updateUser(user.id, user.getUsername(), user.getEmail());
+        System.out.println(user.id +"--"+  user.getUsername() +"--"+  user.getEmail());
         return new UserResponse("El usuario se registró satisfactoriamente");
     }
 
@@ -40,9 +39,7 @@ public class UserService {
             UserDTO userDTO = UserDTO.builder()
             .id(user.id)
             .username(user.getUsername())
-            .firstname(user.getFirstname())
-            .lastname(user.getLastname())
-            .country(user.getCountry())
+            .email(user.getEmail())
             .build();
             return userDTO;
         }

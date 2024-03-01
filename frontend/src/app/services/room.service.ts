@@ -79,7 +79,7 @@ export class RoomService {
             
             if (message.body == 'true') {
                 console.log('Usuario Nuevo'); 
-                this.stompClient.subscribe('/topic/' + roomName, (message: { body: string }) => this.handleRoomMessage(message)).asObservable();
+                this.stompClient.subscribe('/topic/' + roomName, (message: { body: string }) => this.handleRoomMessage(message));
                 this.router.navigate(['room', roomName], { state: { roomName, isAdmin:false }});
             } else {
                 console.log('Parámetros no cumplidos');
