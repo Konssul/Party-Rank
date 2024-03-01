@@ -117,6 +117,6 @@ export class RoomComponent {
   }
   submitScore(){
     console.log(this.scoreForm.value.score)
-    this.scoreForm.controls.score.setValue('');
+    this.scoreForm.reset();
   }
 }

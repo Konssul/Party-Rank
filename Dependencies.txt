@@ -15,4 +15,11 @@ https://www.postman.com/downloads/?utm_source=postman-home
 
 
 DOCKER //To Install
+
 PGADMIN4
+spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
+spring.datasource.username=chris
+spring.datasource.password=pepesito123
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.hibernate.ddl-auto=create

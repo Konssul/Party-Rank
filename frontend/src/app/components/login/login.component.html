@@ -1,0 +1,35 @@
+<form [formGroup]="loginForm" (submit)="loginButton()">
+
+    <p>{{loginError}}</p>
+    <div><label for="username">Username</label>
+        <input id="username" type="text" formControlName="username">
+    </div>
+
+
+    @if (username().invalid && (username().dirty || username().touched)) {
+    <div class="alert alert-danger">
+        @if (username().errors?.['required']) {
+        <div>Username is required.</div>
+        }
+    </div>
+    }
+
+    <div> <label for="password">Password</label>
+        <input id="password" type="password" formControlName="password">
+    </div>
+
+    @if (password().invalid && (password().dirty || password().touched)) {
+    <div class="alert alert-danger">
+        @if (password().errors?.['required']) {
+        <div>Password is required.</div>
+        }
+    </div>
+    }
+
+
+
+    <button type="submit" class="primary">Login</button>
+
+
+
+</form>
