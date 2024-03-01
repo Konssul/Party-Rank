@@ -13,7 +13,7 @@ Además (principalmente desde el backend) se debe controlar que un mismo usuario
   providedIn: 'root'
 })
 export class RoomService {
-
+  
   private stompClient: any;
   private isConnected: boolean = false;
 
@@ -78,8 +78,8 @@ export class RoomService {
           console.log("MESSAGEBODY", message.body);
             
             if (message.body == 'true') {
-                console.log('Usuario Nuevo');
-                this.stompClient.subscribe('/topic/' + roomName, (message: { body: string }) => this.handleRoomMessage(message));
+                console.log('Usuario Nuevo'); 
+                this.stompClient.subscribe('/topic/' + roomName, (message: { body: string }) => this.handleRoomMessage(message)).asObservable();
                 this.router.navigate(['room', roomName], { state: { roomName, isAdmin:false }});
             } else {
                 console.log('Parámetros no cumplidos');
