@@ -110,13 +110,15 @@ export class RoomComponent {
     this.nextVideo();
     this.roomService.nextVideoService(this.roomName, this.i);
   }
+  
+  submitScore(){
+    console.log(this.scoreForm.value.score)
+    this.scoreForm.reset();
+  }
+
   ngOnDestroy(): void {
     if (this.nextVideoIndexSubscription) {
       this.nextVideoIndexSubscription.unsubscribe();
     }
-  }
-  submitScore(){
-    console.log(this.scoreForm.value.score)
-    this.scoreForm.reset();
   }
 }

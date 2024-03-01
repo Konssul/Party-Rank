@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LoginRequest } from './loginRequest';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, throwError, BehaviorSubject, tap } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { User } from './user';
 
@@ -11,10 +11,24 @@ import { User } from './user';
 
 export class LoginService {
 
+  currentUserLoginOnSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  currentUserLoginOn$:Observable<boolean> = this.currentUserLoginOnSubject.asObservable();
+
+  currentLoginUserDataSubject: BehaviorSubject<User> = new BehaviorSubject<User>({id:0, username:''}); //TODO: Session Storage...
+  currentLoginUserData$:Observable<User> = this.currentLoginUserDataSubject.asObservable();
+
+
   constructor(private http:HttpClient) { }
 
   login(credentials:LoginRequest):Observable<User>{
-      return this.http.get<User>('././assessts/data.json').pipe(
+      return this.http.get<User>('././assets/data.json').pipe(
+
+        tap(userData=>{
+          this.currentLoginUserDataSubject.next(userData);
+          this.currentUserLoginOnSubject.next(true);
+          
+
+        }),
         catchError(this.handleError)
       )
   }
@@ -31,3 +45,4 @@ export class LoginService {
 
   }  
 }
+

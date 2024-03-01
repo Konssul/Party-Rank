@@ -1,0 +1,11 @@
+@if(userLoginOn){
+<div>
+    <p>Username: {{loginUserData?.username}}</p>
+    <p>Email: {{loginUserData?.email}}</p>
+
+</div>
+
+}
+@else {
+<p>User not logged</p> <!--Hay que poner el perfil del usuario basado en la ruta pero buenoXD-->
+}

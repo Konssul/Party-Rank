@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginService } from '../../services/auth/login.service';
 import { LoginRequest } from '../../services/auth/loginRequest';
 import { error } from 'console';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -11,14 +13,28 @@ import { error } from 'console';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy{
 
-
+  userLoginOn:boolean=false;
   loginError:string = "";
   public formType = '';
 
-  constructor(private loginService: LoginService) {
+  constructor(private loginService: LoginService, private router:Router) {
 
+
+  }
+  ngOnDestroy(): void {
+    //Unsubscribe if something goes wrong.
+    }
+  ngOnInit(): void {
+    
+    this.loginService.currentUserLoginOn$.subscribe(
+      {
+        next:(userLoginOn)=>{
+          this.userLoginOn=userLoginOn
+        }
+
+    })
   }
 
   loginForm = new FormGroup({
@@ -42,6 +58,7 @@ export class LoginComponent {
         },
         complete:()=>{
           console.info("Login done")
+          this.router.navigate(['profile']);
         }
       })
       this.loginForm.reset();
