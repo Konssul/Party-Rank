@@ -6,30 +6,29 @@ import { error } from 'console';
 import { Router } from '@angular/router';
 import { Subject, Subscription, catchError, finalize, takeUntil, tap, throwError } from 'rxjs';
 import { User } from '../../services/auth/user';
+import { RegisterRequest } from '../../services/auth/registerRequest';
 
 
 /*Debería refactorizar para juntar el login y el register...*/
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   standalone: true,
   imports: [ReactiveFormsModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.css'
 })
-export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
+export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  loginError: string = "";
+  registerError: string = "";
   public formType = '';
 
-  authServiceisLogged$: Subscription | undefined;  //Suscripcion que comprueba si el usuario está logeado
+  authServiceisLogged$: Subscription | undefined; //Suscripcion que comprueba si el usuario está logeado
   userLoginOn?: boolean;
 
-  authServiceLogin$: Subscription | undefined; //Suscripcion que maneja el login y la llamada a la api
+  authServiceRegister$: Subscription | undefined; //Suscripcion que maneja el registro y la llamada a la api
 
-  getUser$: Subscription | undefined; //Suscripcion que recoge los datos del usuario logeado
+  getUserSubscription$: Subscription | undefined; //Suscripcion que recoge los datos del usuario registrado
   userLoginData?: User;
-
-
 
   constructor(private authService: AuthService, private router: Router) {
 
@@ -40,7 +39,7 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     if (this.userLoginOn) {
       console.log("this.userLoginOn")
-      this.getUser$ = this.authService.getUserInfo().subscribe(
+      this.getUserSubscription$ = this.authService.getUserInfo().subscribe(
         (user) => {
           this.userLoginData = user
           if (this.userLoginData?.username) {
@@ -59,10 +58,9 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
 
 
-    if (this.getUser$ != null) { this.getUser$.unsubscribe() }
-
+    if (this.getUserSubscription$ != null) { this.getUserSubscription$.unsubscribe() }
     if (this.authServiceisLogged$ != null) { this.authServiceisLogged$.unsubscribe() }
-    if (this.authServiceLogin$ != null) { this.authServiceLogin$.unsubscribe() }
+    if (this.authServiceRegister$ != null) { this.authServiceRegister$.unsubscribe() }
   }
 
 
@@ -80,30 +78,33 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
       })
   }
 
-  loginForm = new FormGroup({
+  registerForm = new FormGroup({
     username: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', Validators.required),
   });
 
-  loginButton() {
-    if (this.loginForm.valid) {
-      console.log('username: ' + this.loginForm.value.username)
-      console.log('password: ' + this.loginForm.value.password)
+  registerButton() {
+    if (this.registerForm.valid) {
+      console.log('username: ' + this.registerForm.value.username)
+      console.log('email: ' + this.registerForm.value.email)
+      console.log('password: ' + this.registerForm.value.password)
 
-      this.authServiceLogin$ = this.authService.login(this.loginForm.value as LoginRequest).subscribe({
+      //Cambiar por authService.register
+      this.authServiceRegister$ = this.authService.register(this.registerForm.value as RegisterRequest).subscribe({
         next: (userData) => {
           console.log(userData)
         },
         error: (errorData) => {
           console.log(errorData)
-          this.loginError = errorData
+          this.registerError = errorData
 
         },
         complete: () => {
           console.info("Login done")
 
 
-          this.getUser$ = this.authService.getUserInfo().subscribe(
+          this.getUserSubscription$ = this.authService.getUserInfo().subscribe(
             (user) => {
               this.userLoginData = user
               if (this.userLoginData?.username) {
@@ -122,20 +123,22 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
 
         }
       })
-      this.loginForm.reset();
+      this.registerForm.reset();
     }
     else {
-      this.loginForm.markAllAsTouched();
+      this.registerForm.markAllAsTouched();
     }
   }
 
   get username() {
-    return this.loginForm.controls.username
+    return this.registerForm.controls.username
   }
 
-
+  get email() {
+    return this.registerForm.controls.email
+  }
   get password() {
-    return this.loginForm.controls.password
+    return this.registerForm.controls.password
   }
 
 }

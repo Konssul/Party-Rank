@@ -5,13 +5,14 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { User } from './user';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
+import { RegisterRequest } from './registerRequest';
 
 @Injectable({
   providedIn: 'root',
  
 })
 
-export class LoginService {
+export class AuthService {
 
   currentUserLoginOnSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(sessionStorage.getItem("token")!=null);
   currentUserLoginOn$:Observable<boolean> = this.currentUserLoginOnSubject.asObservable();
@@ -42,6 +43,21 @@ export class LoginService {
         catchError(this.handleError)
       )
   }
+
+  register(credentials:RegisterRequest):Observable<any>{
+    return this.http.post<any>(environment.urlHost+"auth/register", credentials).pipe(
+
+      tap((userData)=>{
+        sessionStorage.setItem("token", userData.token)
+        this.currentLoginUserDataSubject.next(userData.token);
+        this.currentUserLoginOnSubject.next(true)
+        console.log(this.currentUserLoginOnSubject.value)
+        
+      }),
+      map((userData)=>userData.token),
+      catchError(this.handleError)
+    )
+}
 
 
   private handleError(error:HttpErrorResponse){

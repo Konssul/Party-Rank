@@ -17,6 +17,7 @@ import com.konsul.partyrank.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -41,20 +42,25 @@ public class AuthService {
 
     }
 
+    @Transactional
     public AuthResponse register(RegisterRequest request) {
-        User user = User.builder()
-                .username(request.getUsername())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .email(request.getEmail())
-                .role(Role.USER)
-                .build();
-
-        userRepository.save(user);
-
-        return AuthResponse.builder()
-                .token(jwtService.getToken(user))
-                .build();
-
+        try {
+            User user = User.builder()
+                    .username(request.getUsername())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .email(request.getEmail())
+                    .role(Role.USER)
+                    .build();
+    
+            userRepository.save(user);
+    
+            return AuthResponse.builder()
+                    .token(jwtService.getToken(user))
+                    .build();
+        } catch (Exception e) {
+            // Manejar la excepción, loggearla, etc.
+            throw new RuntimeException("Error durante el registro", e);
+        }
     }
 
     public UserDTO getUserFromToken(String token) {

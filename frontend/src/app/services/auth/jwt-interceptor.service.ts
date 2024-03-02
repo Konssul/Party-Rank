@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LoginService } from './login.service';
+import { AuthService } from './auth.service';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class JwtInterceptorService implements HttpInterceptor {
 
-  constructor(private loginService:LoginService) { }
+  constructor(private loginService:AuthService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let token:String=this.loginService.userToken;

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { LoginService } from '../../services/auth/login.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { User } from '../../services/auth/user';
 import { UserService } from '../../services/user/user.service';
 import { environment } from '../../../environments/environment';
@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   getUserSubscription?: Subscription;
   isUserProfileLogged: boolean = false;
 
-  constructor(private loginService: LoginService, private userService: UserService, private router: Router, private route: ActivatedRoute) {
+  constructor(private loginService: AuthService, private userService: UserService, private router: Router, private route: ActivatedRoute) {
   }
   ngOnDestroy(): void {
     if (this.userLoginOnSubscription) {

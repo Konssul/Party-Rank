@@ -1,0 +1,55 @@
+
+
+@if(!userLoginOn) {
+    <form [formGroup]="registerForm" (submit)="registerButton()">
+    
+        <p>{{registerError}}</p>
+        <div><label for="username">Username</label>
+            <input id="username" type="text" formControlName="username">
+        </div>
+    
+    
+        @if (username.invalid && (username.dirty || username.touched)) {
+        <div class="alert alert-danger">
+            @if (username.errors?.['required']) {
+            <div>Username is required.</div>
+            }
+        </div>
+        }
+
+        <div><label for="email">E-mail</label>
+            <input id="email" type="text" formControlName="email">
+        </div>
+
+        @if (email.invalid && (email.dirty || email.touched)) {
+            <div class="alert alert-danger">
+                @if (email.errors?.['required']) {
+                <div>E-mail is required.</div>
+                }
+                @if (email.errors?.['email']) {
+                    <div>This is not e-mail format.</div>
+                    }
+            </div>
+            }
+    
+        <div> <label for="password">Password</label>
+            <input id="password" type="password" formControlName="password">
+        </div>
+    
+        @if (password.invalid && (password.dirty || password.touched)) {
+        <div class="alert alert-danger">
+            @if (password.errors?.['required']) {
+            <div>Password is required.</div>
+            }
+        </div>
+        }
+    
+    
+    
+        <button type="submit" class="primary">Register</button>
+    
+    
+    
+    </form>}
+    
+    
