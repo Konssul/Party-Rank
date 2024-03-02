@@ -1,3 +1,23 @@
+GITMOJI GUIDE:
+
+New Dev Feature (small goal) ✨
+Working on a Dev Feature 🚧
+Feature Completed ✅
+
+Working on the Visual Style 🎨
+Bug Fix 🐛
+Internal Document Updates (gitignore, dependencies, annotations...) 📌
+External Document Updates (README, Brainstorming...) 📝
+Delete Something 🔥 
+Refactor 🔨
+
+
+
+
+
+
+
+
 Páginas que necesito:
 Login
 Perfil
@@ -44,3 +64,9 @@ Distinguir entre user y admin (creador de la sala)
 
 
 Cada vez que le das a continuar, devuelva una lista de listas. 
+
+
+
+
+
+
