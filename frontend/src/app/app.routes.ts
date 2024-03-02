@@ -33,7 +33,7 @@ export const routes: Routes = [
         title: 'Login'
     },
     {
-        path:'profile',
+        path:'profile/:username',
         component:ProfileComponent,
         title:'Profile'    
     }

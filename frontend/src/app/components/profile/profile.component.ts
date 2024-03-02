@@ -3,7 +3,7 @@ import { LoginService } from '../../services/auth/login.service';
 import { User } from '../../services/auth/user';
 import { UserService } from '../../services/user/user.service';
 import { environment } from '../../../environments/environment';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -20,26 +20,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
   userLoggedData?: User;
   userLoginOnSubscription?: Subscription;
   getUserSubscription?: Subscription;
-  isUserProfileLogged:boolean = false;
+  isUserProfileLogged: boolean = false;
 
-  
-
-  constructor(private loginService: LoginService, private userService: UserService, private router: Router) {
-
-
-    this.userService.getUser(environment.userId).subscribe({
-      next: (userData) => {
-        this.userProfileData = userData;
-      },
-      error: (erroData) => {
-        console.log(erroData)
-      },
-      complete: () => {
-
-      }
-    })
-
-
+  constructor(private loginService: LoginService, private userService: UserService, private router: Router, private route: ActivatedRoute) {
   }
   ngOnDestroy(): void {
     if (this.userLoginOnSubscription) {
@@ -51,9 +34,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
-
   ngOnInit(): void {
 
+    /*Coge los datos del usuario que está logeado y los compara con el perfil*/
 
     this.userLoginOnSubscription = this.loginService.currentUserLoginOn$.subscribe(
       {
@@ -62,12 +45,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
           this.userLoginOn = userLoginOn
           console.log("USERLOGINON" + userLoginOn)
           if (userLoginOn) {
-             this.getUserSubscription = this.loginService.getUserInfo().subscribe(
+            this.getUserSubscription = this.loginService.getUserInfo().subscribe(
               (user) => {
                 this.userLoggedData = user;
                 console.log("USER PROFILE:", this.userLoggedData);
 
-                if(this.userProfileData?.username == this.userLoggedData?.username){
+                if (this.userProfileData?.username == this.userLoggedData?.username) {
                   console.log("User Comparisson")
                   console.log(this.userProfileData?.username)
                   console.log(this.userLoggedData?.username)
@@ -80,15 +63,25 @@ export class ProfileComponent implements OnInit, OnDestroy {
               }
             );
           }
-
         }
-
       })
 
-      
-  
-  }
+    const userIdParam = this.route.snapshot.paramMap.get('username');
+    if (userIdParam !== null) {
 
+      this.userService.getUser(userIdParam).subscribe({
+        next: (userData) => {
+          this.userProfileData = userData;
+        },
+        error: (erroData) => {
+          console.log(erroData)
+        },
+        complete: () => {
+
+        }
+      })
+    }
+  }
 
   logoutButton() {
     this.loginService.logout()

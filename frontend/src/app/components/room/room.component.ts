@@ -29,7 +29,7 @@ export class RoomComponent {
   private nextVideoIndexSubscription: Subscription | undefined;
 
   roomName = '';
-  isAdmin = false;
+  isRoomCreator = false;
   i = 0;
   youtubeUrls: SafeResourceUrl[] = [
     "https://youtu.be/ow7iv7cXpTo?si=N5qGlhrzsFR_bYLM",
@@ -47,9 +47,9 @@ export class RoomComponent {
     const navigation = this.router.getCurrentNavigation();
     if (navigation != null) {
       console.log(navigation.extras.state);
-      const state = navigation.extras.state as { roomName: string, isAdmin: boolean };
+      const state = navigation.extras.state as { roomName: string, isRoomCreator: boolean };
       this.roomName = state.roomName;
-      this.isAdmin = state.isAdmin;
+      this.isRoomCreator = state.isRoomCreator;
     }
 
     this.youtubeUrls = this.youtubeUrls.map(url => this.extractVideoCode(url));

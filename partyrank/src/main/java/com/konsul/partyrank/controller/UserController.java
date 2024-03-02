@@ -34,6 +34,17 @@ public class UserController {
         return ResponseEntity.ok(userDTO);
     }
 
+    @GetMapping(value = "/username/{username}")
+    public ResponseEntity<UserDTO> getUserbyName(@PathVariable String username)
+    {
+        UserDTO userDTO = userService.getUserByName(username);
+        if (userDTO==null)
+        {
+           return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(userDTO);
+    }
+
     @PutMapping()
     public ResponseEntity<UserResponse> updateUser(@RequestBody UserRequest userRequest)
     {

@@ -45,4 +45,18 @@ public class UserService {
         }
         return null;
     }
+    public UserDTO getUserByName(String username) {
+        User user= userRepository.findByUsername(username).orElse(null);
+       
+        if (user!=null)
+        {
+            UserDTO userDTO = UserDTO.builder()
+            .id(user.id)
+            .username(user.getUsername())
+            .email(user.getEmail())
+            .build();
+            return userDTO;
+        }
+        return null;
+    }
 }

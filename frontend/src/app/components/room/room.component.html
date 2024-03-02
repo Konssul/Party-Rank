@@ -10,7 +10,7 @@ allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-pic
 <button  type="submit" class="primary" >Submit</button>
 </form>
 
-@if (isAdmin) {
+@if (isRoomCreator) {
     <button (click)="nexVideoToService()" class="primary" >Continue</button>
 }
 </div>

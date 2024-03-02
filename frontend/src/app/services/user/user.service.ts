@@ -11,8 +11,8 @@ export class UserService {
 
   constructor(private http:HttpClient) { }
 
-  getUser(id:number):Observable<User>{
-    return this.http.get<User>(environment.urlApi+"user/"+id).pipe(
+  getUser(username:string):Observable<User>{
+    return this.http.get<User>(environment.urlApi+"user/username/"+username).pipe(
       catchError(this.handleError)
     )
   }

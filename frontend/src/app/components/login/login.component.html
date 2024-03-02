@@ -9,9 +9,9 @@
     </div>
 
 
-    @if (username().invalid && (username().dirty || username().touched)) {
+    @if (username.invalid && (username.dirty || username.touched)) {
     <div class="alert alert-danger">
-        @if (username().errors?.['required']) {
+        @if (username.errors?.['required']) {
         <div>Username is required.</div>
         }
     </div>
@@ -21,9 +21,9 @@
         <input id="password" type="password" formControlName="password">
     </div>
 
-    @if (password().invalid && (password().dirty || password().touched)) {
+    @if (password.invalid && (password.dirty || password.touched)) {
     <div class="alert alert-danger">
-        @if (password().errors?.['required']) {
+        @if (password.errors?.['required']) {
         <div>Password is required.</div>
         }
     </div>
